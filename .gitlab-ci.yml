@@ -3,12 +3,12 @@ image: "quay.io/droidian/build-essential:bullseye-amd64"
 build:
   stage: build
   script:
-    - apt-get install linux-packaging-snippets
+    - apt-get install linux-packaging-snippets -y
     - mkdir -p /usr/lib/aarch64-linux-gnu/halium-generic-initramfs/
     - wget https://github.com/NotKit/initramfs-tools-halium/releases/tag/dynparts -O /usr/lib/aarch64-linux-gnu/halium-generic-initramfs/initrd.img-halium-generic
     - rm -f debian/control
     - debian/rules debian/control
-    - sed 's/linux-initramfs-halium-generic,/ /' -i control
+    - sed 's/linux-initramfs-halium-generic,/ /' -i debian/control
     - RELENG_HOST_ARCH="arm64" releng-build-package
   artifacts:
     paths:
